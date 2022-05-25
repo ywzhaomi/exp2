@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 300px;
+            /* height: 400px; */
+            /* border: 1px solid plum; */
+            margin: 100px auto;
+            margin-bottom: 0;
+        }
+
+        input {
+            height: 50px;
+            font-size: 18px;
+            outline: none;
+            padding-left: 1em;
+        }
+
+        button {
+            height: 50px;
+            width: 50px;
+        }
+
+        .show {
+            width: 600px;
+            margin: 10px auto;
+            border: 2px solid olive;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        #del {
+            width: 80px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <input class="text" type="text" placeholder="please input a number">
+        <button>提交</button>
+    </div>
+    <div class="show">
+        <ul id="list">
+
+        </ul>
+        <button id="del">清空内容</button>
+    </div>
+
+    <script>
+
+        // 封装一个随机数函数  min 到  max  
+        function getRandom(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min
+        }
+
+        //获取随机运算符函数
+        function getSignala() {
+            let str = ['+', '-', '*', '/']
+            let strNum = getRandom(0, 3)
+            // console.log(str[strNum]);
+            return str[strNum]
+        }
+        var signal1 = getSignala()
+        var signal2 = getSignala()
+
+        //计算结果函数
+        function getResult(num1, num2, num3) {
+            // var signal1 = getSignala()
+            // console.log('第一个运算符' + signal1);
+            // var signal2 = getSignala()
+            // console.log('第二个运算符' + signal2);
+            if (signal1 == '+') {
+                if (signal2 == '+') {
+                    res = num1 + num2 + num3;
+                }
+                if (signal2 == '-') {
+                    res = num1 + num2 - num3;
+                }
+                if (signal2 == '*') {
+                    res = num2 * num3 + num1;
+                }
+                if (signal2 == '/') {
+                    res = num2 / num3 + num1;
+                }
+            }
+            if (signal1 == '-') {
+                if (signal2 == '+') {
+                    res = num1 - num2 + num3;
+                }
+                if (signal2 == '-') {
+                    res = num1 - num2 - num3;
+                }
+                if (signal2 == '*') {
+                    res = num2 * num3 - num1;
+                }
+                if (signal2 == '/') {
+                    res = num2 / num3 - num1;
+                }
+            }
+            if (signal1 == '*') {
+                if (signal2 == '+') {
+                    res = num1 * num2 + num3;
+                }
+                if (signal2 == '-') {
+                    res = num1 * num2 - num3;
+                }
+                if (signal2 == '*') {
+                    res = num2 * num3 * num1;
+                }
+                if (signal2 == '/') {
+                    res = num2 / num3 * num1;
+                }
+            }
+            if (signal1 == '/') {
+                if (signal2 == '+') {
+                    res = num1 / num2 + num3;
+                }
+                if (signal2 == '-') {
+                    res = num1 / num2 - num3;
+                }
+                if (signal2 == '*') {
+                    res = num2 * num3 / num1;
+                }
+                if (signal2 == '/') {
+                    res = num2 / num3 / num1;
+                }
+            }
+            return res;
+        }
+
+        //获取提交按钮
+        let btn = document.querySelector("button")
+        btn.addEventListener('click', function () {
+            //获取文本框value
+            let text = document.querySelector('input');
+            //获取循环次数
+            var count = +text.value;
+
+            // console.log('第一个数字：' + num1);
+            // console.log('第二个数字：' + num2);
+            // console.log('第三个数字：' + num3);
+
+            // console.log('结果是：' + res);
+            for (var i = 0; i < count; i++) {
+                //生成三个随机数
+                var num1 = getRandom(10, 30)
+                var num2 = getRandom(5, 10)
+                var num3 = getRandom(1, 5)
+                //计算结果
+                var res = getResult(num1, num2, num3)
+                // console.log(i);
+                //获取ul
+                let ul = document.querySelector('#list');
+                // 创建一个小li，然后里面通过innerHTML追加数据
+                let li = document.createElement('li');
+                li.innerHTML = `${num1}${signal1}${num2}${signal2}${num3}=${res}`;
+                ul.append(li)
+
+            }
+            text.value = ''
+        })
+
+        let del = document.querySelector("#del")
+        del.addEventListener('click', function () {
+            let ul = document.querySelector('#list');
+            ul.innerHTML = ''
+        })
+    </script>
+</body>
+
+</html>
